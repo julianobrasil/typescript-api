@@ -1,0 +1,31 @@
+{
+  "name": "swagger-reader",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index",
+  "type": "module",
+  "scripts": {
+    "start": "node --loader ts-node/esm index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/julianobrasil/typescript-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/julianobrasil/typescript-api/issues"
+  },
+  "homepage": "https://github.com/julianobrasil/typescript-api#readme",
+  "devDependencies": {
+    "@types/node": "^18.7.8",
+    "@types/swagger-schema-official": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "node-fetch": "^3.2.10",
+    "swagger-typescript-api": "^10.0.1"
+  }
+}
