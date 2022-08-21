@@ -1,7 +1,6 @@
 import pkg from 'swagger-typescript-api';
 import path from 'path';
 import { generateAndDiff } from './src/generate-and-diff';
-import { toKebabCase } from './src/to-kebab-case';
 import { processGenerateApiOutput } from './src/process-generate-api-output';
 import { extractInterfacesInfo } from './src/extract-interfaces-info';
 
