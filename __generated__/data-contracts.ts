@@ -34,7 +34,6 @@ export interface Pet {
 
   /** pet status in the store */
   status?: "available" | "pending" | "sold";
-  obj1?: { age?: number; height?: number; weight?: number };
 }
 
 export interface Tag {
@@ -76,22 +75,4 @@ export interface User {
    * @format int32
    */
   userStatus?: number;
-}
-
-export interface FindPetsByStatusParams {
-  /** Status values that need to be considered for filter */
-  status: ("available" | "pending" | "sold")[];
-}
-
-export interface FindPetsByTagsParams {
-  /** Tags to filter by */
-  tags: string[];
-}
-
-export interface LoginUserParams {
-  /** The user name for login */
-  username: string;
-
-  /** The password for login in clear text */
-  password: string;
 }

@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { LoginUserParams, User } from "./data-contracts";
+import { User } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -98,7 +98,7 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * @summary Logs user into the system
    * @request GET:/user/login
    */
-  loginUser = (query: LoginUserParams, params: RequestParams = {}) =>
+  loginUser = (query: { username: string; password: string }, params: RequestParams = {}) =>
     this.request<string, void>({
       path: `/user/login`,
       method: "GET",
