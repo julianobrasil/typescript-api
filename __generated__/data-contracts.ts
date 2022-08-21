@@ -76,3 +76,21 @@ export interface User {
    */
   userStatus?: number;
 }
+
+export interface FindPetsByStatusParams {
+  /** Status values that need to be considered for filter */
+  status: ("available" | "pending" | "sold")[];
+}
+
+export interface FindPetsByTagsParams {
+  /** Tags to filter by */
+  tags: string[];
+}
+
+export interface LoginUserParams {
+  /** The user name for login */
+  username: string;
+
+  /** The password for login in clear text */
+  password: string;
+}

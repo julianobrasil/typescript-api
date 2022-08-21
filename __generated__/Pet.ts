@@ -9,7 +9,7 @@
  * ---------------------------------------------------------------
  */
 
-import { ApiResponse, Pet } from "./data-contracts";
+import { ApiResponse, FindPetsByStatusParams, FindPetsByTagsParams, Pet } from "./data-contracts";
 import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Pet<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
@@ -77,7 +77,7 @@ export class Pet<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @request GET:/pet/findByStatus
    * @secure
    */
-  findPetsByStatus = (query: { status: ("available" | "pending" | "sold")[] }, params: RequestParams = {}) =>
+  findPetsByStatus = (query: FindPetsByStatusParams, params: RequestParams = {}) =>
     this.request<Pet[], void>({
       path: `/pet/findByStatus`,
       method: "GET",
@@ -96,7 +96,7 @@ export class Pet<SecurityDataType = unknown> extends HttpClient<SecurityDataType
    * @deprecated
    * @secure
    */
-  findPetsByTags = (query: { tags: string[] }, params: RequestParams = {}) =>
+  findPetsByTags = (query: FindPetsByTagsParams, params: RequestParams = {}) =>
     this.request<Pet[], void>({
       path: `/pet/findByTags`,
       method: "GET",
