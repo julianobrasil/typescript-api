@@ -1,5 +1,7 @@
 import pkg from 'swagger-typescript-api';
 import path from 'path';
+import { SWAGGER_JSON } from './swaggerspec';
+import { Spec } from 'swagger-schema-official';
 
 type MigrationFile =  {
     name: string;
@@ -13,6 +15,7 @@ type MigrationFile =  {
 const { generateApi } = pkg;
 generateApi({
     url: 'https://petstore.swagger.io/v2/swagger.json',
+    // spec: SWAGGER_JSON as Spec,
     output: path.resolve(process.cwd(), "./__generated__"),
     // hooks: {
     //     // onParseSchema: (originalSchema, parsedSchema) => {console.log(parsedSchema)},
@@ -22,8 +25,6 @@ generateApi({
     // }
     modular: true,
     httpClientType: 'fetch',
-    cleanOutput: true,
-    extractRequestParams: true
 }).then(({files}) => {
     let typesFile: MigrationFile | null = null;
     const supportFiles: Record<string, MigrationFile> = {};
@@ -39,11 +40,13 @@ generateApi({
 })
 .catch(e => ({typesFile: {content: 'ERRROR'}, supportFiles: {}}))
 .then(({typesFile, supportFiles}) => {
+    const supportFileNames = Object.keys(supportFiles).map(key => key.split('.ts').join(''));
     const content = typesFile?.content as string;
-    const regex = /export ([a-z])+ [A-Z]([a-zA-Z0-9])+ {[\n\s\/*@a-zA-Z0-9?:;|"\[\]]+}/gm;
+    const regex = /export ([a-z])+ [A-Z]([a-zA-Z0-9])+ {\n([\n\s\/*@a-zA-Z0-9?:;|"\[\]\}]|{(?!\n))+(}(?!;))/gm;
     let result: RegExpExecArray | null;
     while((result = regex.exec(content)) !== null) {
         console.log(result[0]);
         console.log('NEXT');
     }
+    console.log(supportFileNames);
 })

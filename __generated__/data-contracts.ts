@@ -34,6 +34,7 @@ export interface Pet {
 
   /** pet status in the store */
   status?: "available" | "pending" | "sold";
+  obj1?: { age?: number; height?: number; weight?: number };
 }
 
 export interface Tag {
