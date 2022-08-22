@@ -76,3 +76,19 @@ export interface User {
    */
   userStatus?: number;
 }
+
+export interface UploadFilePayload {
+  /** Additional data to pass to server */
+  additionalMetadata?: string;
+
+  /** file to upload */
+  file?: File;
+}
+
+export interface UpdatePetWithFormPayload {
+  /** Updated name of the pet */
+  name?: string;
+
+  /** Updated status of the pet */
+  status?: string;
+}

@@ -1,4 +1,4 @@
-export const processGenerateApiOutput = (files: MigrationFile[]) => {
+export const pickFilesToWorkWith = (files: MigrationFile[]): MigrationFilesByType => {
     let typesFile: MigrationFile | null = null;
     const supportFiles: Record<string, MigrationFile> = {};
     files.forEach(file => {

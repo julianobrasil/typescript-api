@@ -4,7 +4,7 @@ declare type Interface = {
     definition: string;
 };
 
-declare type MigrationFile =  {
+declare type MigrationFile = {
     name: string;
     content: string;
     declaration: {
@@ -12,3 +12,13 @@ declare type MigrationFile =  {
         content: string;
     } | null;
 }
+
+declare type FileSingleLineDiff =  {
+    oldContent?: string;
+    newContent?: string;
+    lineNumber: number;
+} 
+
+declare type FileDiffs = FileSingleLineDiff[];
+
+declare type MigrationFilesByType = {typesFile: MigrationFile | null, supportFiles: Record<string, MigrationFile>}

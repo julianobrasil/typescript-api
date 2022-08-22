@@ -1,6 +1,6 @@
 import { toKebabCase } from "./to-kebab-case";
 
-export const extractInterfacesInfo = (typesFile: Partial<MigrationFile>) => {
+export const breakDownInterfacesObjects = (typesFile: Partial<MigrationFile>) => {
     const content = typesFile?.content as string;
     const regex = /export ([a-z])+ [A-Z]([a-zA-Z0-9])+ {\n([\n\s\/*@a-zA-Z0-9?:;|"\[\]\}]|{(?!\n))+(}(?!;))/gm;
     let result: RegExpExecArray | null;
@@ -16,19 +16,22 @@ export const extractInterfacesInfo = (typesFile: Partial<MigrationFile>) => {
         }
     }
 
-    insertImports(interfaces);
+    insertImportsStatements(interfaces);
 
     return interfaces;
 }
-
-function insertImports(interfaces: Record<string, Interface>) {
+/**
+ * After the breaking down,  
+ * @param interfaces 
+ */
+function insertImportsStatements(interfaces: Record<string, Interface>) {
     const types = Object.keys(interfaces);
     Object.entries(interfaces).forEach(([key, interf]) => {
         const toImport = types.filter(t => t !== key && interf.definition.includes(`: ${t}`));
         toImport.sort();
         if (toImport.length) {
             interf.definition = toImport
-                .map(k => `import {${k}} from './${interfaces[k].file}.ts'`)
+                .map(k => `import {${k}} from './${interfaces[k].file}';`)
                 .join('\n') + '\n\n' + interf.definition;
         }
     })
