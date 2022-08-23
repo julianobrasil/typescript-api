@@ -14,19 +14,19 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Store<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * No description
+   * @description Returns a map of status codes to quantities
    *
    * @tags store
-   * @name PlaceOrder
-   * @summary Place an order for a pet
-   * @request POST:/store/order
+   * @name GetInventory
+   * @summary Returns pet inventories by status
+   * @request GET:/store/inventory
+   * @secure
    */
-  placeOrder = (body: Order, params: RequestParams = {}) =>
-    this.request<Order, void>({
-      path: `/store/order`,
-      method: "POST",
-      body: body,
-      type: ContentType.Json,
+  getInventory = (params: RequestParams = {}) =>
+    this.request<Record<string, number>, any>({
+      path: `/store/inventory`,
+      method: "GET",
+      secure: true,
       format: "json",
       ...params,
     });
@@ -60,19 +60,19 @@ export class Store<SecurityDataType = unknown> extends HttpClient<SecurityDataTy
       ...params,
     });
   /**
-   * @description Returns a map of status codes to quantities
+   * No description
    *
    * @tags store
-   * @name GetInventory
-   * @summary Returns pet inventories by status
-   * @request GET:/store/inventory
-   * @secure
+   * @name PlaceOrder
+   * @summary Place an order for a pet
+   * @request POST:/store/order
    */
-  getInventory = (params: RequestParams = {}) =>
-    this.request<Record<string, number>, any>({
-      path: `/store/inventory`,
-      method: "GET",
-      secure: true,
+  placeOrder = (body: Order, params: RequestParams = {}) =>
+    this.request<Order, void>({
+      path: `/store/order`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
       format: "json",
       ...params,
     });

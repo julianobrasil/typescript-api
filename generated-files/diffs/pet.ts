@@ -1,17 +1,16 @@
-import {Category} from './category';
-import {Tag} from './tag';
-
-export interface Pet {
-  /** @format int64 */
+export interface Pet { // >>>>>>> changed to "import {Category} from './category';"
+  /** @format int64 */ // >>>>>>> changed to "import {Tag} from './tag';"
   id?: number;
-  category?: Category;
-
-  /** @example doggie */
-  name: string;
+  category?: Category; // >>>>>>> changed to "export interface Pet {"
+ // >>>>>>> changed to "  /** @format int64 */"
+  /** @example doggie */ // >>>>>>> changed to "  id?: number;"
+  name: string; // >>>>>>> changed to "  category?: Category;"
   photoUrls: string[];
-  tags?: Tag[];
-
-  /** pet status in the store */
-  status?: "available" | "pending" | "sold";
-  obj1?: { age?: number; height?: number; weight?: number }; // >>>>>>> changed to "}"
+  tags?: Tag[]; // >>>>>>> changed to "  /** @example doggie */"
+ // >>>>>>> changed to "  name: string;"
+  /** pet status in the store */ // >>>>>>> changed to "  photoUrls: string[];"
+  status?: "available" | "pending" | "sold"; // >>>>>>> changed to "  tags?: Tag[];"
 }
+// >>>>>>> changed to "  /** pet status in the store */"
+// >>>>>>> changed to "  status?: "available" | "pending" | "sold";"
+// >>>>>>> changed to "}"

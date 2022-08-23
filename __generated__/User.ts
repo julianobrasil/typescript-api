@@ -17,38 +17,6 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
    * No description
    *
    * @tags user
-   * @name CreateUsersWithArrayInput
-   * @summary Creates list of users with given input array
-   * @request POST:/user/createWithArray
-   */
-  createUsersWithArrayInput = (body: User[], params: RequestParams = {}) =>
-    this.request<any, void>({
-      path: `/user/createWithArray`,
-      method: "POST",
-      body: body,
-      type: ContentType.Json,
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags user
-   * @name CreateUsersWithListInput
-   * @summary Creates list of users with given input array
-   * @request POST:/user/createWithList
-   */
-  createUsersWithListInput = (body: User[], params: RequestParams = {}) =>
-    this.request<any, void>({
-      path: `/user/createWithList`,
-      method: "POST",
-      body: body,
-      type: ContentType.Json,
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags user
    * @name GetUserByName
    * @summary Get user by user name
    * @request GET:/user/{username}
@@ -91,6 +59,54 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
       ...params,
     });
   /**
+   * @description This can only be done by the logged in user.
+   *
+   * @tags user
+   * @name CreateUser
+   * @summary Create user
+   * @request POST:/user
+   */
+  createUser = (body: User, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: `/user`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags user
+   * @name CreateUsersWithArrayInput
+   * @summary Creates list of users with given input array
+   * @request POST:/user/createWithArray
+   */
+  createUsersWithArrayInput = (body: User[], params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: `/user/createWithArray`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags user
+   * @name CreateUsersWithListInput
+   * @summary Creates list of users with given input array
+   * @request POST:/user/createWithList
+   */
+  createUsersWithListInput = (body: User[], params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: `/user/createWithList`,
+      method: "POST",
+      body: body,
+      type: ContentType.Json,
+      ...params,
+    });
+  /**
    * No description
    *
    * @tags user
@@ -118,22 +134,6 @@ export class User<SecurityDataType = unknown> extends HttpClient<SecurityDataTyp
     this.request<any, void>({
       path: `/user/logout`,
       method: "GET",
-      ...params,
-    });
-  /**
-   * @description This can only be done by the logged in user.
-   *
-   * @tags user
-   * @name CreateUser
-   * @summary Create user
-   * @request POST:/user
-   */
-  createUser = (body: User, params: RequestParams = {}) =>
-    this.request<any, void>({
-      path: `/user`,
-      method: "POST",
-      body: body,
-      type: ContentType.Json,
       ...params,
     });
 }

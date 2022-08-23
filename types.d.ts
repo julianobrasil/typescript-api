@@ -22,3 +22,10 @@ declare type FileSingleLineDiff =  {
 declare type FileDiffs = FileSingleLineDiff[];
 
 declare type MigrationFilesByType = {typesFile: MigrationFile | null, supportFiles: Record<string, MigrationFile>}
+
+declare type CamelCaseRichObject ={
+    camelCaseToSnakeCaseMap: {[camelCaseValue: string]: string};
+    snakeCaseToCamelCaseMap: {[snakeCaseValue: string]: string};
+    camelCaselizedContent: string;
+    interface: Interface
+}

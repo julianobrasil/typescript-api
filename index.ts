@@ -7,6 +7,7 @@ import { breakDownInterfacesObjects } from './src/break-down-interfaces-objects'
 import { createDirectoryIfNeeded } from './src/create-directory-if-needed';
 import { SWAGGER_JSON } from './mock-data/swaggerspec';
 import { Spec } from 'swagger-schema-official';
+import { buildCamelCaseMaps } from './src/build-camel-case-maps';
 
 const { generateApi } = pkg;
 
@@ -27,10 +28,15 @@ function buildTypesFromOpenApi(basePath: string) {
         httpClientType: 'fetch',
         extractRequestBody: true
     }).then(({ files }) => pickFilesToWorkWith(files))
-        .catch(e => ({ typesFile: { content: 'ERROR', name: 'ERROR' } }))
-        .then(({ typesFile }) => Boolean(typesFile) && breakDownInterfacesObjects(typesFile!))
-        .then((interfaces: boolean | Record<string, Interface>) => {
-            Object.entries(interfaces || {}).forEach(([key, value]) => {
+        .catch(e => ({ typesFile: { content: 'ERROR', name: 'ERROR' }, supportFiles: {} }))
+        .then(({ typesFile, supportFiles }) => Boolean(typesFile) && {interfacesData: breakDownInterfacesObjects(typesFile!, supportFiles), supportFiles})
+        .then((obj) => obj && {camelCaseRichObject: buildCamelCaseMaps(obj.interfacesData), supportFiles: obj.supportFiles})
+        .then((obj) => {
+            if(!obj) {
+                throw new Error('ooops!');
+            }
+            const {camelCaseRichObject, supportFiles} = obj;
+            Object.entries(camelCaseRichObject || {}).forEach(([key, value]) => {
                 generateFiles(value, basePath);
             })
         })

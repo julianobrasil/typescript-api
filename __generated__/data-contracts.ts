@@ -9,13 +9,6 @@
  * ---------------------------------------------------------------
  */
 
-export interface ApiResponse {
-  /** @format int32 */
-  code?: number;
-  type?: string;
-  message?: string;
-}
-
 export interface Category {
   /** @format int64 */
   id?: number;
@@ -40,6 +33,13 @@ export interface Tag {
   /** @format int64 */
   id?: number;
   name?: string;
+}
+
+export interface ApiResponse {
+  /** @format int32 */
+  code?: number;
+  type?: string;
+  message?: string;
 }
 
 export interface Order {
@@ -77,18 +77,18 @@ export interface User {
   userStatus?: number;
 }
 
-export interface UploadFilePayload {
-  /** Additional data to pass to server */
-  additionalMetadata?: string;
-
-  /** file to upload */
-  file?: File;
-}
-
 export interface UpdatePetWithFormPayload {
   /** Updated name of the pet */
   name?: string;
 
   /** Updated status of the pet */
   status?: string;
+}
+
+export interface UploadFilePayload {
+  /** Additional data to pass to server */
+  additionalMetadata?: string;
+
+  /** file to upload */
+  file?: File;
 }

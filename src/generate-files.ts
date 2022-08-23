@@ -2,25 +2,25 @@ import path from 'path';
 import fs from 'fs';
 import { createDirectoryIfNeeded } from './create-directory-if-needed';
 
-export const generateFiles = (i: Interface, generatedFilesBasePath: string) => {
-    const filePath = `${generatedFilesBasePath}/${i.file}.ts`;
-    createDiffFile(generatedFilesBasePath, i);
+export const generateFiles = (data: CamelCaseRichObject, generatedFilesBasePath: string) => {
+    const filePath = `${generatedFilesBasePath}/${data.interface.file}.ts`;
+    createDiffFile(generatedFilesBasePath, data);
 
     // Create or update the current file
-    fs.writeFile(filePath, i.definition, function (err: NodeJS.ErrnoException | null) {
+    fs.writeFile(filePath, data.interface.definition, function (err: NodeJS.ErrnoException | null) {
         if (err) {
-            console.log(`Error while writing to ${i.file}.ts`, err);
+            console.log(`Error while writing to ${data.interface.file}.ts`, err);
         }
     });
 }
 
-const createDiffFile = (baseDirectory: string, interfaceDefs: Interface) => {
-    const fileAbsolutePath = `${baseDirectory}/${interfaceDefs.file}.ts`;
+const createDiffFile = (baseDirectory: string, data: CamelCaseRichObject) => {
+    const fileAbsolutePath = `${baseDirectory}/${data.interface.file}.ts`;
     if (fs.existsSync(fileAbsolutePath)) {
-        const fileDiffs = findContentDiffs(fileAbsolutePath, interfaceDefs.definition);
+        const fileDiffs = findContentDiffs(fileAbsolutePath, data.interface.definition);
         if (fileDiffs) {
             createDirectoryIfNeeded(path.join(baseDirectory, 'diffs'));
-            const diffFilePath = path.resolve(path.join(baseDirectory, 'diffs', `${interfaceDefs.file}.ts`));
+            const diffFilePath = path.resolve(path.join(baseDirectory, 'diffs', `${data.interface.file}.ts`));
             if (fs.existsSync(diffFilePath)) {
                 fs.unlinkSync(diffFilePath);
             }
