@@ -8,6 +8,8 @@ import { createDirectoryIfNeeded } from './src/create-directory-if-needed';
 import { SWAGGER_JSON } from './mock-data/swaggerspec';
 import { Spec } from 'swagger-schema-official';
 import { buildCamelCaseMaps } from './src/build-camel-case-maps';
+import { addConvertMethods } from './src/add-convert-methods';
+import { changeServiceInterfacesNames } from './src/change-service-interfaces-names';
 
 const { generateApi } = pkg;
 
@@ -27,19 +29,22 @@ function buildTypesFromOpenApi(basePath: string) {
         modular: true,
         httpClientType: 'fetch',
         extractRequestBody: true
-    }).then(({ files }) => pickFilesToWorkWith(files))
-        .catch(e => ({ typesFile: { content: 'ERROR', name: 'ERROR' }, supportFiles: {} }))
-        .then(({ typesFile, supportFiles }) => Boolean(typesFile) && {interfacesData: breakDownInterfacesObjects(typesFile!, supportFiles), supportFiles})
-        .then((obj) => obj && {camelCaseRichObject: buildCamelCaseMaps(obj.interfacesData), supportFiles: obj.supportFiles})
-        .then((obj) => {
-            if(!obj) {
-                throw new Error('ooops!');
-            }
-            const {camelCaseRichObject, supportFiles} = obj;
-            Object.entries(camelCaseRichObject || {}).forEach(([key, value]) => {
+    })
+        .then(({ files }) => pickFilesToWorkWith(files))
+        .then(({ typesFile, supportFiles, httpClientFile }) => 
+                ({...breakDownInterfacesObjects(typesFile!, supportFiles), httpClientFile}))
+        .then(({ interfacesData, supportFiles, httpClientFile }) => 
+                ({camelCaseRichObjectMap: buildCamelCaseMaps(interfacesData), supportFiles, httpClientFile}))
+        .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => 
+                ({camelCaseRichObjectMap, supportFiles: changeServiceInterfacesNames(supportFiles), httpClientFile}))
+        .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => 
+                ({camelCaseRichObjectMap: addConvertMethods(camelCaseRichObjectMap), supportFiles, httpClientFile}))
+        .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => {
+            Object.entries(camelCaseRichObjectMap || {}).forEach(([key, value]) => {
                 generateFiles(value, basePath);
             })
         })
+        .catch(e => ({ typesFile: { content: 'ERROR', name: 'ERROR' }, supportFiles: {} }))
 }
 
 buildTypesFromOpenApi('generated-files');

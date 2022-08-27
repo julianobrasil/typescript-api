@@ -1,4 +1,4 @@
-export interface UpdatePetWithFormPayload {
+export class UpdatePetWithFormPayload {
   /** Updated name of the pet */
   name?: string;
 

@@ -1,7 +1,10 @@
-export interface Pet { // >>>>>>> changed to "import {Category} from './category';"
+import {Category} from './category';
+import {Tag} from './tag';
+
+export class Pet { // >>>>>>> changed to "import {Category} from './category';"
   /** @format int64 */ // >>>>>>> changed to "import {Tag} from './tag';"
   id?: number;
-  category?: Category; // >>>>>>> changed to "export interface Pet {"
+  category?: Category; // >>>>>>> changed to "export class Pet {"
  // >>>>>>> changed to "  /** @format int64 */"
   /** @example doggie */ // >>>>>>> changed to "  id?: number;"
   name: string; // >>>>>>> changed to "  category?: Category;"

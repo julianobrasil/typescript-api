@@ -1,4 +1,4 @@
-export class UploadFilePayload {
+export interface UploadFilePayload { // >>>>>>> changed to "export class UploadFilePayload {"
   /** Additional data to pass to server */
   additionalMetadata?: string;
 

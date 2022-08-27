@@ -1,6 +1,6 @@
 export const snakeCaseToCamelCaseRichObject = (interfaceObject: Interface): CamelCaseRichObject => {
-    const camelCaselizedContent = snakeCaseToCamelCase(interfaceObject.definition);
-    const originalCaseKeysArray = originalCaseValuesInOriginalOrder(interfaceObject.definition);
+    const camelCaselizedContent = snakeCaseToCamelCase(interfaceObject.camelCaselizedDefinition);
+    const originalCaseKeysArray = originalCaseValuesInOriginalOrder(interfaceObject.camelCaselizedDefinition);
     const camelCaseKeysArray = camelCaseValuesInOriginalOrder(camelCaselizedContent);
     const snakeCaseToCamelCaseMap = originalCaseKeysArray.reduce((acc, item, index) => { acc[item] = camelCaseKeysArray[index]; return acc; }, {} as Record<string, string>);
     const camelCaseToSnakeCaseMap = originalCaseKeysArray.reduce((acc, item, index) => { acc[camelCaseKeysArray[index]] = item; return acc; }, {} as Record<string, string>);
@@ -18,7 +18,7 @@ const snakeCaseToCamelCase = (content: string): string => {
 }
 
 const originalCaseValuesInOriginalOrder = (content: string) => {
-    const regex = /(\s|\{)([a-z-_0-9]+):/gi;
+    const regex = /(\s|\{)([a-z-_0-9]+)\??:/gi;
     const finalArray: string[] = [];
     let result!: RegExpExecArray | null;
     while ((result = regex.exec(content)) !== null) {
@@ -28,7 +28,7 @@ const originalCaseValuesInOriginalOrder = (content: string) => {
 }
 
 const camelCaseValuesInOriginalOrder = (content: string) => {
-    const regex = /(\s|\{)([a-z0-9]+):/gi;
+    const regex = /(\s|\{)([a-z0-9]+)\??:/gi;
     const finalArray: string[] = [];
     let result!: RegExpExecArray | null;
     while ((result = regex.exec(content)) !== null) {

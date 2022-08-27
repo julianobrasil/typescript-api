@@ -1,4 +1,4 @@
-export class User {
+export interface User { // >>>>>>> changed to "export class User {"
   /** @format int64 */
   id?: number;
   username?: string;

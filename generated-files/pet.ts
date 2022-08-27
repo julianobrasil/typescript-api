@@ -1,7 +1,10 @@
 import {Category} from './category';
 import {Tag} from './tag';
 
-export interface Pet {
+import {Category} from './category';
+import {Tag} from './tag';
+
+export class Pet {
   /** @format int64 */
   id?: number;
   category?: Category;

@@ -7,7 +7,7 @@ export const generateFiles = (data: CamelCaseRichObject, generatedFilesBasePath:
     createDiffFile(generatedFilesBasePath, data);
 
     // Create or update the current file
-    fs.writeFile(filePath, data.interface.definition, function (err: NodeJS.ErrnoException | null) {
+    fs.writeFile(filePath, data.interface.camelCaselizedDefinition, function (err: NodeJS.ErrnoException | null) {
         if (err) {
             console.log(`Error while writing to ${data.interface.file}.ts`, err);
         }
@@ -17,7 +17,7 @@ export const generateFiles = (data: CamelCaseRichObject, generatedFilesBasePath:
 const createDiffFile = (baseDirectory: string, data: CamelCaseRichObject) => {
     const fileAbsolutePath = `${baseDirectory}/${data.interface.file}.ts`;
     if (fs.existsSync(fileAbsolutePath)) {
-        const fileDiffs = findContentDiffs(fileAbsolutePath, data.interface.definition);
+        const fileDiffs = findContentDiffs(fileAbsolutePath, data.interface.camelCaselizedDefinition);
         if (fileDiffs) {
             createDirectoryIfNeeded(path.join(baseDirectory, 'diffs'));
             const diffFilePath = path.resolve(path.join(baseDirectory, 'diffs', `${data.interface.file}.ts`));
@@ -42,17 +42,8 @@ const findContentDiffs = (filePath: string, fileContent: string) => {
 
     const extraLinesOnOldFile = oldFileContentSplitted.length - fileContentSplitted.length;
     if (extraLinesOnOldFile > 0) {
-        console.log({
-            fileContentSplitted: fileContentSplitted.length,
-            oldFileContentSplitted: oldFileContentSplitted.length,
-        })
         const start = fileContentSplitted.length + extraLinesOnOldFile - 1
         for (let i = start; i < oldFileContentSplitted.length; i++) {
-            console.log('added', {
-                oldContent: oldFileContentSplitted[i],
-                newContent: undefined,
-                lineNumber: i
-            })
             differences.push({
                 oldContent: oldFileContentSplitted[i],
                 newContent: undefined,

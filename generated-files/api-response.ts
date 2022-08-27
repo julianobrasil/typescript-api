@@ -1,4 +1,4 @@
-export interface ApiResponse {
+export class ApiResponse {
   /** @format int32 */
   code?: number;
   type?: string;

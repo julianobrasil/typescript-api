@@ -5,6 +5,10 @@ export const buildCamelCaseMaps = (interfacesData: boolean | {interfaces: {[type
         return {} as Record<string, CamelCaseRichObject>;
     }
 
+    // Turn the interfaces into objects
+    (Object.values(interfacesData.interfaces) as Interface[]).forEach(value => value.camelCaselizedDefinition = value.camelCaselizedDefinition.replaceAll('interface', 'class'));
+    (Object.values(interfacesData.apiInterfaces) as Interface[]).forEach(value => value.camelCaselizedDefinition = value.camelCaselizedDefinition.replaceAll('interface', 'class'));
+
     const fromInterfaces = (Object.entries(interfacesData.interfaces) as [string, Interface][]).reduce((acc, [key, value]) => {
         acc[key] = snakeCaseToCamelCaseRichObject(value);
         return acc;

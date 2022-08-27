@@ -14,57 +14,6 @@ import { ContentType, HttpClient, RequestParams } from "./http-client";
 
 export class Pet<SecurityDataType = unknown> extends HttpClient<SecurityDataType> {
   /**
-   * @description Returns a single pet
-   *
-   * @tags pet
-   * @name GetPetById
-   * @summary Find pet by ID
-   * @request GET:/pet/{petId}
-   * @secure
-   */
-  getPetById = (petId: number, params: RequestParams = {}) =>
-    this.request<Pet, void>({
-      path: `/pet/${petId}`,
-      method: "GET",
-      secure: true,
-      format: "json",
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags pet
-   * @name UpdatePetWithForm
-   * @summary Updates a pet in the store with form data
-   * @request POST:/pet/{petId}
-   * @secure
-   */
-  updatePetWithForm = (petId: number, data: UpdatePetWithFormPayload, params: RequestParams = {}) =>
-    this.request<any, void>({
-      path: `/pet/${petId}`,
-      method: "POST",
-      body: data,
-      secure: true,
-      type: ContentType.FormData,
-      ...params,
-    });
-  /**
-   * No description
-   *
-   * @tags pet
-   * @name DeletePet
-   * @summary Deletes a pet
-   * @request DELETE:/pet/{petId}
-   * @secure
-   */
-  deletePet = (petId: number, params: RequestParams = {}) =>
-    this.request<any, void>({
-      path: `/pet/${petId}`,
-      method: "DELETE",
-      secure: true,
-      ...params,
-    });
-  /**
    * No description
    *
    * @tags pet
@@ -154,6 +103,57 @@ export class Pet<SecurityDataType = unknown> extends HttpClient<SecurityDataType
       query: query,
       secure: true,
       format: "json",
+      ...params,
+    });
+  /**
+   * @description Returns a single pet
+   *
+   * @tags pet
+   * @name GetPetById
+   * @summary Find pet by ID
+   * @request GET:/pet/{petId}
+   * @secure
+   */
+  getPetById = (petId: number, params: RequestParams = {}) =>
+    this.request<Pet, void>({
+      path: `/pet/${petId}`,
+      method: "GET",
+      secure: true,
+      format: "json",
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags pet
+   * @name UpdatePetWithForm
+   * @summary Updates a pet in the store with form data
+   * @request POST:/pet/{petId}
+   * @secure
+   */
+  updatePetWithForm = (petId: number, data: UpdatePetWithFormPayload, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: `/pet/${petId}`,
+      method: "POST",
+      body: data,
+      secure: true,
+      type: ContentType.FormData,
+      ...params,
+    });
+  /**
+   * No description
+   *
+   * @tags pet
+   * @name DeletePet
+   * @summary Deletes a pet
+   * @request DELETE:/pet/{petId}
+   * @secure
+   */
+  deletePet = (petId: number, params: RequestParams = {}) =>
+    this.request<any, void>({
+      path: `/pet/${petId}`,
+      method: "DELETE",
+      secure: true,
       ...params,
     });
 }
