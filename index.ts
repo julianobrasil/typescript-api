@@ -2,7 +2,7 @@ import pkg from 'swagger-typescript-api';
 import path from 'path';
 import fs from 'fs';
 import { generateFiles } from './src/generate-files';
-import { pickFilesToWorkWith } from './src/pick-files-to-work-with';
+import { addFileTypeInfo } from './src/add-file-type-info';
 import { breakDownInterfacesObjects } from './src/break-down-interfaces-objects';
 import { createDirectoryIfNeeded } from './src/create-directory-if-needed';
 import { SWAGGER_JSON } from './mock-data/swaggerspec';
@@ -20,8 +20,8 @@ const { generateApi } = pkg;
  */
 function buildTypesFromOpenApi(basePath: string) {
     createDirectoryIfNeeded(basePath);
-    const generatedFilesPath = path.resolve(process.cwd(), "./__generated__");
-    fs.rmSync(generatedFilesPath, {recursive: true, force: true});
+    const generatedFilesPath = path.resolve(process.cwd(), './__generated__');
+    fs.rmSync(generatedFilesPath, { recursive: true, force: true });
     generateApi({
         url: 'https://petstore.swagger.io/v2/swagger.json',
         // spec: SWAGGER_JSON as Spec,
@@ -30,20 +30,19 @@ function buildTypesFromOpenApi(basePath: string) {
         httpClientType: 'fetch',
         extractRequestBody: true
     })
-        .then(({ files }) => pickFilesToWorkWith(files))
-        .then(({ typesFile, supportFiles, httpClientFile }) => 
-                ({...breakDownInterfacesObjects(typesFile!, supportFiles), httpClientFile}))
-        .then(({ interfacesData, supportFiles, httpClientFile }) => 
-                ({camelCaseRichObjectMap: buildCamelCaseMaps(interfacesData), supportFiles, httpClientFile}))
-        .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => 
-                ({camelCaseRichObjectMap, supportFiles: changeServiceInterfacesNames(supportFiles), httpClientFile}))
-        .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => 
-                ({camelCaseRichObjectMap: addConvertMethods(camelCaseRichObjectMap), supportFiles, httpClientFile}))
-        .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => {
-            Object.entries(camelCaseRichObjectMap || {}).forEach(([key, value]) => {
-                generateFiles(value, basePath);
-            })
-        })
+        .then(({ files }) => addFileTypeInfo(files as unknown as MigrationFile<'model-source' | 'api-source' | 'http-client-source'>[]))
+        .then((files) => breakDownInterfacesObjects(files))
+        // .then(({ interfacesData, supportFiles, httpClientFile }) => 
+        //         ({camelCaseRichObjectMap: buildCamelCaseMaps(interfacesData), supportFiles, httpClientFile}))
+        // .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => 
+        //         ({camelCaseRichObjectMap, supportFiles: changeServiceInterfacesNames(supportFiles), httpClientFile}))
+        // .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => 
+        //         ({camelCaseRichObjectMap: addConvertMethods(camelCaseRichObjectMap), supportFiles, httpClientFile}))
+        // .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => {
+        //     Object.entries(camelCaseRichObjectMap || {}).forEach(([key, value]) => {
+        //         generateFiles(value, basePath);
+        //     })
+        // })
         .catch(e => ({ typesFile: { content: 'ERROR', name: 'ERROR' }, supportFiles: {} }))
 }
 
