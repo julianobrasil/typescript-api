@@ -7,9 +7,11 @@ import { breakDownInterfacesObjects } from './src/break-down-interfaces-objects'
 import { createDirectoryIfNeeded } from './src/create-directory-if-needed';
 import { SWAGGER_JSON } from './mock-data/swaggerspec';
 import { Spec } from 'swagger-schema-official';
-import { buildCamelCaseMaps } from './src/build-camel-case-maps';
+import { camelCaselize } from './src/camel-caselize';
 import { addConvertMethods } from './src/add-convert-methods';
-import { changeServiceInterfacesNames } from './src/change-service-interfaces-names';
+import { changeApiServicesNames } from './src/change-api-services-names';
+import { insertImportStatements } from './src/insert-import-statements';
+import { cloneContent } from './src/helpers/clone-content';
 
 const { generateApi } = pkg;
 
@@ -32,12 +34,11 @@ function buildTypesFromOpenApi(basePath: string) {
     })
         .then(({ files }) => addFileTypeInfo(files as unknown as MigrationFile<'model-source' | 'api-source' | 'http-client-source'>[]))
         .then((files) => breakDownInterfacesObjects(files))
-        // .then(({ interfacesData, supportFiles, httpClientFile }) => 
-        //         ({camelCaseRichObjectMap: buildCamelCaseMaps(interfacesData), supportFiles, httpClientFile}))
-        // .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => 
-        //         ({camelCaseRichObjectMap, supportFiles: changeServiceInterfacesNames(supportFiles), httpClientFile}))
-        // .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => 
-        //         ({camelCaseRichObjectMap: addConvertMethods(camelCaseRichObjectMap), supportFiles, httpClientFile}))
+        .then((files) => cloneContent(files, (file) => ['model', 'api-client-model'].includes(file.type)))
+        .then((files) => insertImportStatements(files))
+        .then((files) => camelCaselize(files))
+        .then((files) => changeApiServicesNames(files))
+        .then((files) => addConvertMethods(files))
         // .then(({ camelCaseRichObjectMap, supportFiles, httpClientFile }) => {
         //     Object.entries(camelCaseRichObjectMap || {}).forEach(([key, value]) => {
         //         generateFiles(value, basePath);

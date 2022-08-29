@@ -1,4 +1,4 @@
-export const addConvertMethods = (camelCaseRichObjectMap: Record<string, CamelCaseRichObject>) => {
+export const addConvertMethods = (files: MigrationFile<FileType>[]) => {
     // console.log(camelCaseRichObjectMap)
     // Object.values(camelCaseRichObjectMap).forEach(v => {
     //     v.interface.camelCaselizedDefinition.replace(/}$/, 
@@ -8,7 +8,7 @@ export const addConvertMethods = (camelCaseRichObjectMap: Record<string, CamelCa
         
     //     '}')
     // })
-    return camelCaseRichObjectMap;
+    return files;
 }
 
 const extractParameters = (classData: string) => {
